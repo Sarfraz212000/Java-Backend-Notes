@@ -122,5 +122,42 @@ Lessons Learnt in Code Review
 
 10) Declare private constructor for class if it is not getting instantiated anywhere.
 
+===========================================================================================================================
+                             ****   Sonar set up with Amazon linux ***
+===========================================================================================================================
+Step-1 : Setup Linux VM (Amazon Linux AMI)
+	
+	Login into AWS Cloud account
+	Launch Linux VM using EC2 service
+	AMI : Amazon Linux
+	Instance Type : t2.medium
+	Connect to VM using MobaXterm
+
+Step-2 : Install Docker In Linux VM
+
+	sudo yum update -y 
+	sudo yum install docker -y
+	sudo service docker start
+	sudo usermod -aG docker ec2-user
+	exit
+
+Step-3 : Rress 'R' to restart the session (This is in MobaXterm)
+
+Step-4 : Verify docker installation
+		docker -v
+
+Step-5 : Run SonarQube using docker image
+		docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube:lts-community
+
+Step-6: Enable 9000 port number in Security Group Inbound Rules & Access Sonar Server
+ 		hit this url in Browser : http://public-ip:9000/
+
+Step-7: pom.xml file of Spring boot application we need to add below inside the properties
+
+	<properties>
+		<sonar.host.url>http://16.16.197.219:9000</sonar.host.url>
+		<sonar.login>sqa_f52f41d3834ec9ccce4a32d0e4917d02fe25a7f1</sonar.login>
+	</properties>
+
 
 
